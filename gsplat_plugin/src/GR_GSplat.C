@@ -129,7 +129,6 @@ bool GR_PrimGsplat::initAllSHHandles(const GU_Detail *gdp, SHHandles& handles) {
 
 	if (handles.fallback)
 	{
-		GSplatLogger::getInstance().log(GSplatLogger::LogLevel::_WARNING_, "%s", "Spherical harmonics attributes 'sh1, sh2, ..., sh15' not found. Trying fallback f_rest_X attributes...");
 		const char* name_template = "f_rest_%d";
 		char name_i[50];
 		for (int i = 0; i < 45; ++i) {
@@ -143,11 +142,7 @@ bool GR_PrimGsplat::initAllSHHandles(const GU_Detail *gdp, SHHandles& handles) {
 
 		if (!handles.valid)
 		{
-			GSplatLogger::getInstance().log(GSplatLogger::LogLevel::_WARNING_, "%s", "Spherical harmonics fallback 'f_rest_X' attributes not found.");
-		}
-		else
-		{
-			GSplatLogger::getInstance().log(GSplatLogger::LogLevel::_INFO_, "%s", "Spherical harmonics fallback 'f_rest_X' found.");
+			GSplatLogger::getInstance().log(GSplatLogger::LogLevel::_WARNING_, "%s", "No spherical harmonics attributes ('sh1..15' or 'f_rest_0..44') found.");
 		}
 	}
 	return handles.valid;
