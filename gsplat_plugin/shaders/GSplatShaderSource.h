@@ -270,7 +270,7 @@ const char* const _GSplatMainVertexShader = R"glsl(
                 
                 vec3 worldCamToPoint = vec3(P.x, P.y, P.z) - vec3(WorldSpaceCameraPos.x, WorldSpaceCameraPos.y, WorldSpaceCameraPos.z); 
                 vec3 objCamToPoint = mat3(glH_InvObjectMatrix) * worldCamToPoint;
-                shDir = normalize(objCamToPoint);
+                vec3 shDir = normalize(objCamToPoint);
                 vsOut.color = ShadeSH(vsOut.color, sh1, sh2, sh3, sh4, sh5, sh6, sh7, sh8, sh9, sh10, sh11, sh12, sh13, sh14, sh15, shDir, GSplatShOrder, false);
             }
 
