@@ -121,6 +121,7 @@ private:
 	UT_Vector3 myExplicitCameraPos;
 
 	int myShOrder;
+	float splatMaxSize;
 };
 
 

@@ -237,6 +237,21 @@ GR_PrimGsplat::update(
 		shOrderHandle = GA_ROHandleI(shOrderAttr);
 	}
 
+	const GA_Attribute *maxSizeAttr = dtl->findAttribute(GA_ATTRIB_GLOBAL, "gsplat__splat_max_size");
+	GA_ROHandleF maxSizeHandle;
+	if (maxSizeAttr) 
+	{
+		maxSizeHandle = GA_ROHandleF(maxSizeAttr);
+	}
+	if (maxSizeHandle.isValid())
+	{
+		splatMaxSize = maxSizeHandle.get(0);
+	}
+	else
+	{ 
+		splatMaxSize = 4096; // old implementation default
+	}
+
 	myGsplatCount = gSplatPrim->getVertexCount(); // Now this represents the count for the current primitive only
 	mySplatPts.setSize(myGsplatCount);
 	mySplatColors.setSize(myGsplatCount);
@@ -406,6 +421,7 @@ GR_PrimGsplat::render(
     {
 		RE_Shader* sh = GsplatShaderManager::getInstance().getShader(GsplatShaderManager::GSPLAT_WIRE_SHADER, r);
 		r->pushShader(sh);
+		sh->bindFloat(r, "GSplatMaxSize", splatMaxSize);
 		myWireframeGeo->draw(r, RE_GEO_WIRE_IDX);
 		r->popShader();
 	}
@@ -418,6 +434,7 @@ GR_PrimGsplat::render(
 	}
 
 	GSplatRenderer::getInstance().setSphericalHarmonicsOrder(myShOrder);
+	GSplatRenderer::getInstance().splatMaxSize = splatMaxSize;
 }
 
 void
