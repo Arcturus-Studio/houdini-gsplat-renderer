@@ -41,6 +41,7 @@ GSplatRenderer::GSplatRenderer()
     myGSplatCount = 0;
     mySplatOrigin = UT_Vector3(0, 0, 0);
     myShOrder = 0;
+    splatMaxSize = 4096;
 
     _justPrintedOBJLevelRenderingWarning = false;
 }
@@ -620,6 +621,7 @@ void GSplatRenderer::render(RE_RenderContext r, bool isObjectLevel)
     theGSShader->bindInt(r, "GSplatVertexCount", 6);
     theGSShader->bindVector(r, "GSplatOrigin", mySplatOrigin);
     theGSShader->bindInt(r, "GSplatShOrder", doSH ? myShOrder : 0);
+    theGSShader->bindFloat(r, "GSplatMaxSize", splatMaxSize);
     
     theGSShader->bindInt(r, "GSplatZOrderTexDim", myGSplatSortedIndexTexDim);
     r->bindTexture(myTexSortedIndex, theGSShader->getUniformTextureUnit("GSplatZOrderIntegerTexSampler"));

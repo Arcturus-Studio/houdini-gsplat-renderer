@@ -55,6 +55,8 @@ public:
     void setExplicitCameraPos(const UT_Vector3 explicitCameraPos);
     void setSphericalHarmonicsOrder(const int shOrder);
 
+    float splatMaxSize;
+
 private:
     struct GSplatRegisterEntry {
         GU_Detail *gdp;

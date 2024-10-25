@@ -31,6 +31,7 @@ const char* const _GSplatWireVertexShader = R"glsl(
     uniform mat4 glH_ViewMatrix;
     uniform mat4 glH_ProjectMatrix;
     uniform vec2 glH_ScreenSize;
+    uniform float GSplatMaxSize;
 
     out parms
     {
@@ -78,7 +79,7 @@ const char* const _GSplatWireVertexShader = R"glsl(
         CalcCovariance3D(splatRotScaleMat, cov3d0, cov3d1, sigma);
         vec3 cov2d = CalcCovariance2D(P, cov3d0, cov3d1, glH_ViewMatrix, glH_ProjectMatrix, glH_ScreenSize, sigma);
         vec2 view_axis1, view_axis2;
-        DecomposeCovariance(cov2d, view_axis1, view_axis2);
+        DecomposeCovariance(cov2d, GSplatMaxSize, view_axis1, view_axis2);
 
         vec2 deltaScreenPos = (quadPos.x * view_axis1 + quadPos.y * view_axis2) * 2 / glH_ScreenSize;
         vec4 out_vertex = centerClipPos;
@@ -132,6 +133,7 @@ const char* const _GSplatMainVertexShader = R"glsl(
     
     uniform int GSplatShOrder;
     uniform vec3 GSplatOrigin;
+    uniform float GSplatMaxSize;
 
     out parms
     {
@@ -239,7 +241,7 @@ const char* const _GSplatMainVertexShader = R"glsl(
             cov3d1 *= splatScale2;
             vec3 cov2d = CalcCovariance2D(P, cov3d0, cov3d1, glH_ViewMatrix, glH_ProjectMatrix, glH_ScreenSize, sigma);
             vec2 view_axis1, view_axis2;
-            DecomposeCovariance(cov2d, view_axis1, view_axis2);
+            DecomposeCovariance(cov2d, GSplatMaxSize, view_axis1, view_axis2);
 
             if (GSplatShOrder > 0)
             {

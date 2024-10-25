@@ -75,7 +75,7 @@ const char* const GSplatCoreLib = R"glsl(
     }
 
     // From antimatter15/splat
-    void DecomposeCovariance(vec3 cov2d, out vec2 v1, out vec2 v2)
+    void DecomposeCovariance(vec3 cov2d, float maxSize, out vec2 v1, out vec2 v2)
     {
         float diag1 = cov2d.x;
         float diag2 = cov2d.z;
@@ -86,7 +86,6 @@ const char* const GSplatCoreLib = R"glsl(
         float lambda2 = max(mid - radius, 0.1);
         vec2 diagVec = normalize(vec2(offDiag, lambda1 - diag1));
         diagVec.y = -diagVec.y;
-        float maxSize = 4096.0;
         v1 = min(sqrt(2.0 * lambda1), maxSize) * diagVec;
         v2 = min(sqrt(2.0 * lambda2), maxSize) * vec2(diagVec.y, -diagVec.x);
     }
