@@ -134,6 +134,7 @@ const char* const _GSplatMainVertexShader = R"glsl(
     uniform int GSplatShOrder;
     uniform vec3 GSplatOrigin;
     uniform float GSplatMaxSize;
+    uniform int GSplatShowDepth;
 
     out parms
     {
@@ -243,7 +244,17 @@ const char* const _GSplatMainVertexShader = R"glsl(
             vec2 view_axis1, view_axis2;
             DecomposeCovariance(cov2d, GSplatMaxSize, view_axis1, view_axis2);
 
-            if (GSplatShOrder > 0)
+            if (GSplatShowDepth == 1)
+            {
+                // DirectX NDC, Z in [0, 1], +Z away from camera
+                vsOut.color = 1 - vec3(centerClipPos.z / centerClipPos.w);
+            }
+            else if (GSplatShowDepth == 2)
+            {
+                // GL NDC, Z in [-1, 1], -Z away from camera
+                vsOut.color = (vec3(centerClipPos.z / centerClipPos.w) + 1) * 0.5;
+            }
+            else if (GSplatShOrder > 0)
             {
                 vec3 sh1, sh2, sh3, sh4, sh5, sh6, sh7, sh8, sh9, sh10, sh11, sh12, sh13, sh14, sh15;
 

@@ -56,6 +56,7 @@ public:
     void setSphericalHarmonicsOrder(const int shOrder);
 
     float splatMaxSize;
+    int showDepth;
 
 private:
     struct GSplatRegisterEntry {
