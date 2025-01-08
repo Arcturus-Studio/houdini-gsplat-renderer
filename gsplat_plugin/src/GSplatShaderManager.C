@@ -74,10 +74,23 @@ bool GsplatShaderManager::setupShader(RE_Shader* shader, const GSplatShaderType 
 
     UT_String msg;
     shader->addShader(r, RE_SHADER_VERTEX, vertexShaderSource, "VertexShader", 0, &msg);
+    if(msg.length() != 0)
+    {
+        std::cerr << "Vertex shader: " << msg << std::endl;
+    }
     shader->addShader(r, RE_SHADER_FRAGMENT, fragmentShaderSource, "FragmentShader", 0, &msg);
-
+    if(msg.length() != 0)
+    {
+        std::cerr << "Frag shader: " << msg << std::endl;
+    }
     bool linkSuccess = shader->linkShaders(r, &msg);
+    if(!linkSuccess){
+        std::cerr << "Failed to link shaders: " << msg << std::endl;
+    }
     bool validateSuccess = shader->validateShader(r, &msg);
+    if(!validateSuccess){
+        std::cerr << "Failed to validate shaders: " << msg << std::endl;
+    }
     return linkSuccess && validateSuccess;
 }
 
