@@ -122,6 +122,7 @@ private:
 
 	int myShOrder;
 	float splatMaxSize;
+	int showDepth;
 };
 
 

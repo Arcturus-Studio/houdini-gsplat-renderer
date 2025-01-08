@@ -252,6 +252,21 @@ GR_PrimGsplat::update(
 		splatMaxSize = 4096; // old implementation default
 	}
 
+	const GA_Attribute *showDepthAttr = dtl->findAttribute(GA_ATTRIB_GLOBAL, "gsplat__show_depth");
+	GA_ROHandleI showDepthHandle;
+	if (showDepthAttr) 
+	{
+		showDepthHandle = GA_ROHandleI(showDepthAttr);
+	}
+	if (showDepthHandle.isValid())
+	{
+		showDepth = showDepthHandle.get(0);
+	}
+	else
+	{ 
+		showDepth = 0;
+	}
+
 	myGsplatCount = gSplatPrim->getVertexCount(); // Now this represents the count for the current primitive only
 	mySplatPts.setSize(myGsplatCount);
 	mySplatColors.setSize(myGsplatCount);
@@ -435,6 +450,7 @@ GR_PrimGsplat::render(
 
 	GSplatRenderer::getInstance().setSphericalHarmonicsOrder(myShOrder);
 	GSplatRenderer::getInstance().splatMaxSize = splatMaxSize;
+	GSplatRenderer::getInstance().showDepth = showDepth;
 }
 
 void
